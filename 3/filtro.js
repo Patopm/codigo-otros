@@ -29,27 +29,30 @@ const productos = [
 ];
 
 const li = document.getElementById("lista-de-productos");
+function displayProduct(productos) {
+  for (let i = 0; i < productos.length; i++) {
+    var d = document.createElement("div");
+    d.classList.add("producto");
 
-for (let i = 0; i < productos.length; i++) {
-  var d = document.createElement("div");
-  d.classList.add("producto");
+    var ti = document.createElement("p");
+    ti.classList.add("titulo");
+    ti.textContent = productos[i].nombre;
 
-  var ti = document.createElement("p");
-  ti.classList.add("titulo");
-  ti.textContent = productos[i].nombre;
+    var imagen = document.createElement("img");
+    imagen.setAttribute("src", productos[i].img);
 
-  var imagen = document.createElement("img");
-  imagen.setAttribute("src", productos[i].img);
+    d.appendChild(ti);
+    d.appendChild(imagen);
 
-  d.appendChild(ti);
-  d.appendChild(imagen);
-
-  li.appendChild(d);
+    li.appendChild(d);
+  }
 }
 
+displayProduct(productos);
 const botonDeFiltro = document.querySelector("button");
 const $i = document.querySelector("input");
 botonDeFiltro.onclick = function () {
+  li.innerHTML = "";
   const texto = $i.value;
   console.log(texto);
   const productosFiltrados = filtrado(productos, texto);
@@ -72,9 +75,12 @@ botonDeFiltro.onclick = function () {
   }
 };
 
-const filtrado = (productos = [], texto) => {
+function filtrado(productos, texto) {
   texto.toLowerCase();
   return productos.filter(
-    (item) => item.tipo.includes(texto) || item.color.includes(texto)
+    (item) =>
+      item.tipo.includes(texto) ||
+      item.color.includes(texto) ||
+      item.nombre.includes(texto)
   );
-};
+}
